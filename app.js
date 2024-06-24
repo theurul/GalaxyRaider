@@ -1344,6 +1344,20 @@ const STDCreditsCommand = CONSTANTS.bot.registerCommand("credits", STD_gamble.cr
     }
 });
 
+CONSTANTS.bot.registerCommand("claim", STD_gamble.claim, {
+    caseInsensitive: true,
+    fullDescription: "Claim your 10 daily credits!\nClaim every day to get a streak and earn an extra credit per day in your streak (max of 5 extra credits)",
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (!msg.guildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.some(id => msg.member.roles.includes(id)))) return false;
+            else return true;
+        }
+    }
+});
+
 STDCreditsCommand.registerSubcommand("port", STD_gamble.credits_port, {
     caseInsensitive: true,
     fullDescription: "Port points to credits.!",
